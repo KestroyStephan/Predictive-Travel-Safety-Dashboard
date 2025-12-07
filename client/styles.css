@@ -1,0 +1,24 @@
+:root {
+  --bg-dark: #090515;
+  --bg-deep: #120d29;
+  --gradient-bg: radial-gradient(circle at top left, #2b1055, #090515 60%);
+  --gradient-primary: linear-gradient(135deg, #7F00FF, #E100FF);
+  --gradient-accent: linear-gradient(135deg, #00C6FF, #0072FF);
+  --glass-surface: rgba(255, 255, 255, 0.03);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --blur-amt: 20px;
+  --text-main: #ffffff;
+  --text-muted: #94a3b8;
+  --radius-xl: 24px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+}
+*, *::before, *::after { box-sizing: border-box; }
+body {
+  margin: 0; font-family: 'Outfit', sans-serif;
+  background-color: var(--bg-dark); background-image: var(--gradient-bg);
+  color: var(--text-main); height: 100vh; overflow: hidden;
+}
+.ambient-glow { position: absolute; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.4; }
+.glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #7F00FF; }
+.glow-2 { bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: #00C6FF; }
