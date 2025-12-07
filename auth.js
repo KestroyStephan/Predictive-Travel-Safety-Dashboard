@@ -82,3 +82,25 @@ router.get(
     );
   }
 );
+
+// Middleware: JWT auth
+export function requireAuth(req, res, next) {
+  const authHeader = req.headers.authorization || "";
+  const [, token] = authHeader.split(" ");
+
+  if (!token) {
+    return res.status(401).json({ error: "Missing Authorization bearer token" });
+  }
+
+  try {
+    const decoded = jwt.verify(
+      token,
+      process.env.JWT_SECRET || "change-me-in-production"
+    );
+    req.user = decoded; // { sub, name, email }
+    next();
+  } catch (err) {
+    console.error("JWT verification failed", err);
+    return res.status(401).json({ error: "Invalid or expired token" });
+  }
+}
