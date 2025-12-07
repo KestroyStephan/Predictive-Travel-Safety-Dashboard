@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AeroSafe | Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+  
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2"></div>
+
+  <div class="layout-container">
+    
+    <aside class="sidebar glass-panel">
+      <div class="logo-area">
+        <div class="logo-icon"><i class='bx bxs-plane-alt'></i></div>
+        <span class="logo-text">AeroSafe</span>
+      </div>
+      <nav class="side-nav">
+        <a href="index.html" class="nav-item active"><i class='bx bxs-dashboard'></i> Dashboard</a>
+        <a href="#" class="nav-item"><i class='bx bx-map-alt'></i> Live Map</a>
+        <a href="history.html" class="nav-item"><i class='bx bx-history'></i> History</a>
+        <a href="#" class="nav-item"><i class='bx bx-cog'></i> Settings</a>
+      </nav>
+      <div class="user-profile">
+        <div class="user-avatar"><i class='bx bxs-user'></i></div>
+        <div class="user-info">
+            <span id="user-name" class="user-name">Guest</span>
+            <span class="user-role">Traveler</span>
+        </div>
+        <button id="logout-btn" class="icon-btn hidden"><i class='bx bx-log-out'></i></button>
+      </div>
+      <button id="login-btn" class="btn primary full-width">Sign In</button>
+    </aside>
+
+    <main class="main-content">
+      
+      <header class="top-bar">
+        <div class="welcome-text">
+          <h1>Predictive Travel Safety Dashboard</h1>
+          <p>Real-time safety scores & advisory data.</p>
+        </div>
+        <div class="search-wrapper glass-input">
+            <i class='bx bx-search'></i>
+            <input id="country-input" type="text" placeholder="Search destination (e.g. Japan)...">
+            <button id="check-btn" class="btn-icon"><i class='bx bx-right-arrow-alt'></i></button>
+        </div>
+      </header>
+
+      <div class="dashboard-grid">
+        
+        <div class="card glass-panel origin-card">
+          <div class="card-label"><i class='bx bx-current-location'></i> Origin</div>
+          <div class="origin-details">
+            <h2 id="origin-city">Locating...</h2>
+            <p id="origin-country">Detecting IP...</p>
+          </div>
+          <div class="origin-meta">
+            <span class="badge-outline" id="origin-code">--</span>
+            <span class="badge-outline" id="origin-ip">IP: --</span>
+          </div>
+        </div>
+
+        <div class="card glass-panel destination-card">
+          <div class="card-header">
+            <div>
+                <div class="card-label"><i class='bx bxs-plane-take-off'></i> Target Destination</div>
+                <h2 id="dest-name">Select Destination</h2>
+                <div class="badges-row">
+                    <span id="dest-code" class="badge-outline">--</span>
+                    <span id="dest-updated" class="text-xs">Waiting for input...</span>
+                </div>
+            </div>
+            <img id="flag-image" alt="Flag" class="flag hidden" />
+          </div>
+          
+          <div class="score-container">
+            <div class="score-circle-wrapper" id="score-ring-wrapper">
+                <div class="score-ring">
+                    <span id="score-value" class="score-big">-</span>
+                    <span class="score-sub">/ 5.0</span>
+                </div>
+            </div>
+            <div class="risk-status">
+                <span class="label" style="opacity:0.7;">Safety Score</span>
+                <div id="risk-level" class="chip">Unknown</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card glass-panel text-card">
+            <div class="card-title"><i class='bx bx-shield-quarter'></i> Security Advisory</div>
+            <div class="scroll-area">
+                <p id="advisory-text" class="advisory-text">Search for a country to see the latest safety reports.</p>
+            </div>
+            <div class="card-actions">
+                <button id="save-btn" class="btn secondary" disabled><i class='bx bx-bookmark'></i> Save Report</button>
+            </div>
+        </div>
+        
+        </div>
+    </main>
+  </div>
+
+  <script>
+    window.APP_CONFIG = {
+      API_BASE_URL: "http://localhost:4000",
+      OAUTH_ACCESS_TOKEN: null,
+      USER_NAME: null
+    };
+  </script>
+  <script src="app.js"></script>
+</body>
+</html>
