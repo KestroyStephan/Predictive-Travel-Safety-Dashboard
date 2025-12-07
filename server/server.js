@@ -94,3 +94,4 @@ app.get("/api/ip-location", async (req, res) => {
     res.status(502).json({ error: "Failed to fetch IP location" });
   }
 });
+
