@@ -130,3 +130,174 @@ function renderHistory(records) {
     historyBodyEl.appendChild(row);
   });
 }
+
+// --- API & LOGIC ---
+async function fetchIpLocation() {
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/ip-location`);
+    if (!res.ok) return null;
+    return res.json();
+  } catch(e) { return null; }
+}
+
+async function fetchTravelAdvisory(countryCode) {
+  const code = (countryCode || "").toUpperCase();
+  const res = await fetch(`${API_BASE_URL}/api/travel-advisory?countryCode=${code}`);
+  if (!res.ok) throw new Error("API Error");
+  return res.json(); 
+}
+
+async function initDashboard() {
+    // Only run if we are on the Home Page (Origin card exists)
+    if(!originCityEl) return; 
+
+    try {
+        originCityEl.textContent = "Locating...";
+        const ipData = await fetchIpLocation();
+        
+        if(ipData && ipData.countryCode) {
+            renderOrigin(ipData);
+            if(destUpdatedEl) destUpdatedEl.textContent = "Loading data...";
+            const advisory = await fetchTravelAdvisory(ipData.countryCode);
+            const payload = {
+                ipInfo: ipData,
+                advisory,
+                meta: { fetchedAt: new Date().toISOString(), source: "auto" }
+            };
+            currentCombinedPayload = payload;
+            renderDestination(advisory, payload.meta);
+        } else {
+            originCityEl.textContent = "Unavailable";
+        }
+    } catch(e) {
+        if(destUpdatedEl) destUpdatedEl.textContent = "Error loading data";
+    }
+}
+
+async function updateForCountry(input) {
+    if (!input) return;
+    const countryCode = resolveCountryCode(input);
+    if (!countryCode) {
+        alert("Could not recognize country name. Please try the ISO code (e.g. 'LK').");
+        return;
+    }
+    try {
+        if(destUpdatedEl) destUpdatedEl.textContent = "Fetching...";
+        const advisory = await fetchTravelAdvisory(countryCode);
+        const payload = {
+            ipInfo: currentCombinedPayload?.ipInfo, 
+            advisory,
+            meta: { fetchedAt: new Date().toISOString(), source: "manual" }
+        };
+        currentCombinedPayload = payload;
+        renderDestination(advisory, payload.meta);
+    } catch (err) {
+        alert("Could not fetch advisory for that country.");
+    }
+}
+
+async function saveCurrentAdvisory() {
+  if (!currentCombinedPayload || !window.APP_CONFIG.OAUTH_ACCESS_TOKEN) {
+    alert("Please sign in to save."); return;
+  }
+  try {
+    saveBtn.disabled = true;
+    saveBtn.innerHTML = "<i class='bx bx-loader-alt bx-spin'></i> Saving...";
+    const res = await fetch(`${API_BASE_URL}/api/advisories`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Authorization: `Bearer ${window.APP_CONFIG.OAUTH_ACCESS_TOKEN}`, "x-api-key": CLIENT_API_KEY },
+      body: JSON.stringify(currentCombinedPayload)
+    });
+    if(res.ok) {
+        saveBtn.innerHTML = "<i class='bx bx-check'></i> Saved";
+        setTimeout(() => { saveBtn.innerHTML = "<i class='bx bx-bookmark'></i> Save Report"; saveBtn.disabled = false; }, 2000);
+        // Refresh history if we are viewing it
+        loadHistory(); 
+    } else { throw new Error("Save failed"); }
+  } catch (err) { saveBtn.innerHTML = "Error"; saveBtn.disabled = false; }
+}
+
+async function loadHistory() {
+  // Only try to load history if the table exists on this page
+  if (!historyBodyEl) return;
+  
+  if (!window.APP_CONFIG.OAUTH_ACCESS_TOKEN) { renderHistory([]); return; }
+  
+  try {
+    const res = await fetch(`${API_BASE_URL}/api/records`, { headers: { Authorization: `Bearer ${window.APP_CONFIG.OAUTH_ACCESS_TOKEN}`, "x-api-key": CLIENT_API_KEY } });
+    if (res.ok) { renderHistory(await res.json()); }
+  } catch (e) { console.error(e); }
+}
+
+// --- AUTHENTICATION & PERSISTENCE (FIXED) ---
+
+function updateAuthUI() {
+    // Updates the buttons based on login state
+    if (window.APP_CONFIG.OAUTH_ACCESS_TOKEN) {
+        if(loginBtn) loginBtn.classList.add("hidden");
+        if(logoutBtn) logoutBtn.classList.remove("hidden");
+        if(userNameEl) userNameEl.textContent = window.APP_CONFIG.USER_NAME;
+    } else {
+        if(loginBtn) loginBtn.classList.remove("hidden");
+        if(logoutBtn) logoutBtn.classList.add("hidden");
+        if(userNameEl) userNameEl.textContent = "Guest";
+    }
+}
+
+function readAuthFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  const urlToken = params.get("access_token");
+  const urlName = params.get("name");
+
+  // 1. SCENARIO: Coming back from Google Login
+  if (urlToken) {
+    // Save to Local Storage (Permanent memory)
+    localStorage.setItem("aero_token", urlToken);
+    localStorage.setItem("aero_user", urlName || "User");
+    
+    // Set global config
+    window.APP_CONFIG.OAUTH_ACCESS_TOKEN = urlToken;
+    window.APP_CONFIG.USER_NAME = urlName || "User";
+
+    // Clean URL
+    window.history.replaceState({}, "", window.location.pathname);
+  } 
+  // 2. SCENARIO: Page Refresh or Navigation
+  else {
+    const storedToken = localStorage.getItem("aero_token");
+    const storedName = localStorage.getItem("aero_user");
+
+    if (storedToken) {
+      window.APP_CONFIG.OAUTH_ACCESS_TOKEN = storedToken;
+      window.APP_CONFIG.USER_NAME = storedName;
+    }
+  }
+  
+  // Update UI immediately
+  updateAuthUI();
+}
+
+// --- INITIALIZATION ---
+
+document.addEventListener("DOMContentLoaded", () => {
+  readAuthFromUrl(); // Restore login
+  
+  initDashboard(); // Load data (if on home page)
+  
+  if (window.APP_CONFIG.OAUTH_ACCESS_TOKEN) loadHistory(); // Load history (if on history page)
+
+  if(checkBtn) checkBtn.addEventListener("click", () => updateForCountry(countryInput.value.trim()));
+  if(countryInput) countryInput.addEventListener("keyup", (e) => { if (e.key === "Enter") updateForCountry(countryInput.value.trim()); });
+  if(saveBtn) saveBtn.addEventListener("click", saveCurrentAdvisory);
+  if(refreshHistoryBtn) refreshHistoryBtn.addEventListener("click", loadHistory);
+  
+  if(loginBtn) loginBtn.addEventListener("click", () => window.location.href = `${API_BASE_URL}/auth/google`);
+  
+  if(logoutBtn) logoutBtn.addEventListener("click", () => { 
+      // Clear memory on logout
+      localStorage.removeItem("aero_token");
+      localStorage.removeItem("aero_user");
+      window.APP_CONFIG.OAUTH_ACCESS_TOKEN = null; 
+      window.location.reload(); 
+  });
+});
