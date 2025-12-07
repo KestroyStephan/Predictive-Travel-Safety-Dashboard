@@ -1,0 +1,9 @@
+# Ignore all node_modules folders (both root and inside server)
+node_modules/
+
+# Ignore environment variable files (secrets)
+.env
+server/.env
+
+# Ignore system files
+.DS_Store

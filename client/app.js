@@ -1,0 +1,1 @@
+//app.js file created in client folder

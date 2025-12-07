@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>History | AeroSafe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+</head>
+<body>
+  
+  <div class="ambient-glow glow-1"></div>
+  <div class="ambient-glow glow-2" style="top: 10%; right: 10%; bottom: auto; background: radial-gradient(circle, #ff5e62, transparent);"></div>
+
+  <div class="layout-container">
+    
+    <aside class="sidebar glass-panel">
+      <div class="logo-area">
+        <div class="logo-icon"><i class='bx bxs-plane-alt'></i></div>
+        <span class="logo-text">AeroSafe</span>
+      </div>
+      <nav class="side-nav">
+        <a href="index.html" class="nav-item"><i class='bx bxs-dashboard'></i> Dashboard</a>
+        <a href="#" class="nav-item"><i class='bx bx-map-alt'></i> Live Map</a>
+        <a href="history.html" class="nav-item active"><i class='bx bx-history'></i> History</a>
+        <a href="#" class="nav-item"><i class='bx bx-cog'></i> Settings</a>
+      </nav>
+      <div class="user-profile">
+        <div class="user-avatar"><i class='bx bxs-user'></i></div>
+        <div class="user-info">
+            <span id="user-name" class="user-name">Guest</span>
+            <span class="user-role">Traveler</span>
+        </div>
+        <button id="logout-btn" class="icon-btn hidden"><i class='bx bx-log-out'></i></button>
+      </div>
+      <button id="login-btn" class="btn primary full-width">Sign In</button>
+    </aside>
+
+    <main class="main-content">
+      
+      <header class="top-bar">
+        <div class="welcome-text">
+          <h1>Travel History</h1>
+          <p>View your saved advisories and safety reports.</p>
+        </div>
+      </header>
+
+      
