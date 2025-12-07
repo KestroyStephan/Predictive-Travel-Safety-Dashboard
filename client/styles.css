@@ -99,3 +99,29 @@ body {
 .score-sub { font-size: 0.7rem; color: var(--text-muted); }
 .risk-status { display: flex; flex-direction: column; gap: 0.4rem; }
 .risk-status .label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+/* Text Card */
+.text-card { grid-column: 1 / -1; padding: 1.5rem 2rem; }
+.card-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.5rem; }
+.scroll-area { max-height: 150px; overflow-y: auto; padding-right: 1rem; margin-bottom: 1rem; }
+.advisory-text { line-height: 1.6; font-size: 0.95rem; color: #e2e8f0; }
+.card-actions { border-top: 1px solid var(--glass-border); padding-top: 1rem; }
+
+/* Components */
+.chip { display: inline-block; padding: 0.3rem 1rem; border-radius: 50px; font-weight: 600; font-size: 0.85rem; text-align: center; }
+.chip.safe { background: rgba(0, 227, 150, 0.15); color: #00e396; border: 1px solid rgba(0, 227, 150, 0.3); }
+.chip.moderate { background: rgba(255, 176, 57, 0.15); color: #ffb039; border: 1px solid rgba(255, 176, 57, 0.3); }
+.chip.danger { background: rgba(255, 75, 75, 0.15); color: #ff4b4b; border: 1px solid rgba(255, 75, 75, 0.3); }
+.btn { padding: 0.6rem 1.4rem; border-radius: 50px; border: none; font-family: inherit; font-weight: 600; cursor: pointer; transition: all 0.3s; display: inline-flex; align-items: center; gap: 0.5rem; }
+.btn.primary { background: var(--gradient-primary); color: white; box-shadow: 0 4px 15px rgba(225, 0, 255, 0.4); }
+.btn.primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(225, 0, 255, 0.6); }
+.btn.secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.1); }
+.btn.ghost { background: transparent; color: var(--text-muted); border: 1px solid var(--glass-border); padding: 0.4rem; }
+.text-xs { font-size: 0.75rem; color: var(--text-muted); }
+
+/* Responsive */
+@media (max-width: 900px) {
+  .layout-container { grid-template-columns: 1fr; display: block; overflow-y: scroll; }
+  .dashboard-grid { grid-template-columns: 1fr; display: flex; flex-direction: column; }
+  .sidebar { margin-bottom: 1.5rem; }
+}
