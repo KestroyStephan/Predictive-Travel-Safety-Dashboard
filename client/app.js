@@ -37,3 +37,10 @@ const COUNTRY_MAP = {
     "turkey": "TR", "singapore": "SG", "uae": "AE", "united arab emirates": "AE",
     "south korea": "KR", "new zealand": "NZ"
 };
+
+// --- HELPER FUNCTIONS ---
+function formatDateTime(isoString) {
+  if (!isoString) return "-";
+  const d = new Date(isoString);
+  return d.toLocaleDateString() + " " + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+}
