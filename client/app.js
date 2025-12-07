@@ -64,3 +64,44 @@ function getFlagUrl(iso2) {
   if (!iso2) return null;
   return `https://flagcdn.com/w80/${iso2.toLowerCase()}.png`;
 }
+
+// --- RENDER FUNCTIONS ---
+function renderOrigin(ipData) {
+    if(!originCityEl) return;
+    if(!ipData) { originCityEl.textContent = "Unknown"; return; }
+    originCityEl.textContent = ipData.city || "Unknown City";
+    originCountryEl.textContent = ipData.country || "Unknown Country";
+    originCodeEl.textContent = ipData.countryCode || "--";
+    originIpEl.textContent = ipData.query ? `IP: ${ipData.query}` : "IP: --";
+}
+
+function renderDestination(advisoryData, meta) {
+    if(!destNameEl) return;
+    const name = advisoryData.countryName || "Unknown";
+    const code = advisoryData.countryCode || "--";
+    const score = advisoryData.score;
+
+    destNameEl.textContent = name;
+    destCodeEl.textContent = code;
+    
+    const risk = getRiskFromScore(score);
+    scoreValueEl.textContent = typeof score === "number" ? score.toFixed(1) : "-";
+    riskLevelEl.textContent = risk.label;
+    riskLevelEl.className = `chip ${risk.className}`;
+    scoreRingWrapperEl.className = `score-circle-wrapper ${risk.className}`;
+
+    if(meta?.fetchedAt) destUpdatedEl.textContent = `Updated: ${formatDateTime(meta.fetchedAt)}`;
+    
+    const flagUrl = getFlagUrl(code);
+    if (flagImageEl) {
+        if(flagUrl) {
+            flagImageEl.src = flagUrl;
+            flagImageEl.classList.remove("hidden");
+        } else {
+            flagImageEl.classList.add("hidden");
+        }
+    }
+
+    if(advisoryTextEl) advisoryTextEl.textContent = advisoryData.message || "No specific advisory details available.";
+    if(saveBtn) saveBtn.disabled = false;
+}
