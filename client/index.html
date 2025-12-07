@@ -90,6 +90,26 @@
             <button id="check-btn" class="btn-icon"><i class='bx bx-right-arrow-alt'></i></button>
         </div>
       </header>
+
+      <div class="card glass-panel text-card">
+            <div class="card-title"><i class='bx bx-shield-quarter'></i> Security Advisory</div>
+            <div class="scroll-area">
+                <p id="advisory-text" class="advisory-text">Search for a country to see the latest safety reports.</p>
+            </div>
+            <div class="card-actions">
+                <button id="save-btn" class="btn secondary" disabled><i class='bx bx-bookmark'></i> Save Report</button>
+            </div>
+        </div>
+      </div>
+  <script>
+    window.APP_CONFIG = {
+      API_BASE_URL: "http://localhost:4000",
+      OAUTH_ACCESS_TOKEN: null,
+      USER_NAME: null
+    };
+  </script>
+  <script src="app.js"></script>
+  
       </main>
     </div>
 
