@@ -70,3 +70,17 @@ function calculateRiskScore(text) {
     
     return 0.00;
 }
+
+// ------------ Helper: Strip HTML Tags ------------
+// The API returns text like "<p>Avoid all travel...</p>"
+function stripHtml(html) {
+   if (!html) return "";
+   return html.replace(/<[^>]*>?/gm, ''); // Removes <b>, <p>, etc.
+}
+
+// ------------ Routes ------------
+app.get("/", (req, res) => {
+  res.json({ status: "ok", message: "Travel Safety Dashboard API" });
+});
+
+app.use("/auth", authRouter);
