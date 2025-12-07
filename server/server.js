@@ -84,3 +84,13 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", authRouter);
+
+// GET /api/ip-location
+app.get("/api/ip-location", async (req, res) => {
+  try {
+    const { data } = await axios.get("http://ip-api.com/json");
+    res.json(data);
+  } catch (err) {
+    res.status(502).json({ error: "Failed to fetch IP location" });
+  }
+});
