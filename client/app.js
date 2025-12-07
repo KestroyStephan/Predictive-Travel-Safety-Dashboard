@@ -105,3 +105,28 @@ function renderDestination(advisoryData, meta) {
     if(advisoryTextEl) advisoryTextEl.textContent = advisoryData.message || "No specific advisory details available.";
     if(saveBtn) saveBtn.disabled = false;
 }
+
+function renderHistory(records) {
+  if(!historyBodyEl) return;
+  historyBodyEl.innerHTML = "";
+  if (!records || records.length === 0) {
+    historyBodyEl.innerHTML = '<tr><td colspan="5" style="text-align:center; opacity:0.6;">No records yet.</td></tr>';
+    return;
+  }
+  records.forEach((rec) => {
+    const row = document.createElement("tr");
+    const score = typeof rec.advisory?.score === "number" ? rec.advisory.score : (rec.advisoryScore || 0);
+    const risk = getRiskFromScore(score);
+    const cName = rec.advisory?.countryName || rec.countryName || "-";
+    const cCode = rec.advisory?.countryCode || rec.countryCode || "-";
+    
+    row.innerHTML = `
+      <td>${cName}</td>
+      <td><span class="badge-outline">${cCode}</span></td>
+      <td>${typeof score === "number" ? score.toFixed(1) : "–"}</td>
+      <td><span class="chip ${risk.className}" style="padding:0.2rem 0.8rem; font-size:0.75rem;">${risk.label}</span></td>
+      <td style="color:var(--text-muted); font-size:0.8rem;">${formatDateTime(rec.createdAt)}</td>
+    `;
+    historyBodyEl.appendChild(row);
+  });
+}
