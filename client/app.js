@@ -44,3 +44,23 @@ function formatDateTime(isoString) {
   const d = new Date(isoString);
   return d.toLocaleDateString() + " " + d.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
 }
+
+function getRiskFromScore(score) {
+  if (typeof score !== "number" || Number.isNaN(score)) return { label: "Unknown", className: "" };
+  if (score >= 4.0) return { label: "High Risk", className: "danger" };
+  if (score >= 2.5) return { label: "Moderate Risk", className: "moderate" };
+  return { label: "Safe", className: "safe" };
+}
+
+function resolveCountryCode(input) {
+    if (!input) return null;
+    const cleanInput = input.trim().toLowerCase();
+    if (cleanInput.length === 2) return cleanInput.toUpperCase();
+    if (COUNTRY_MAP[cleanInput]) return COUNTRY_MAP[cleanInput];
+    return null; 
+}
+
+function getFlagUrl(iso2) {
+  if (!iso2) return null;
+  return `https://flagcdn.com/w80/${iso2.toLowerCase()}.png`;
+}
