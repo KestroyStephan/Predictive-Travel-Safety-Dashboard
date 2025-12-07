@@ -39,6 +39,47 @@
 
     <main class="main-content">
       <header class="top-bar">
+
+        <div class="dashboard-grid">
+        <div class="card glass-panel origin-card">
+          <div class="card-label"><i class='bx bx-current-location'></i> Origin</div>
+          <div class="origin-details">
+            <h2 id="origin-city">Locating...</h2>
+            <p id="origin-country">Detecting IP...</p>
+          </div>
+          <div class="origin-meta">
+            <span class="badge-outline" id="origin-code">--</span>
+            <span class="badge-outline" id="origin-ip">IP: --</span>
+          </div>
+        </div>
+        
+        <div class="card glass-panel destination-card">
+          <div class="card-header">
+            <div>
+                <div class="card-label"><i class='bx bxs-plane-take-off'></i> Target Destination</div>
+                <h2 id="dest-name">Select Destination</h2>
+                <div class="badges-row">
+                    <span id="dest-code" class="badge-outline">--</span>
+                    <span id="dest-updated" class="text-xs">Waiting for input...</span>
+                </div>
+            </div>
+            <img id="flag-image" alt="Flag" class="flag hidden" />
+          </div>
+          
+          <div class="score-container">
+            <div class="score-circle-wrapper" id="score-ring-wrapper">
+                <div class="score-ring">
+                    <span id="score-value" class="score-big">-</span>
+                    <span class="score-sub">/ 5.0</span>
+                </div>
+            </div>
+            <div class="risk-status">
+                <span class="label" style="opacity:0.7;">Safety Score</span>
+                <div id="risk-level" class="chip">Unknown</div>
+            </div>
+          </div>
+        </div>
+
         <div class="welcome-text">
           <h1>Predictive Travel Safety Dashboard</h1>
           <p>Real-time safety scores & advisory data.</p>
