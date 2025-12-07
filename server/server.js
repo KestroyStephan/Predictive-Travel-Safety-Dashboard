@@ -21,3 +21,38 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 4000;
 const MONGODB_URI = process.env.MONGODB_URI || "mongodb://127.0.0.1:27017/travel_safe";
+
+// ------------ MongoDB connection ------------
+mongoose
+  .connect(MONGODB_URI)
+  .then(() => console.log("✅ Connected to MongoDB"))
+  .catch((err) => console.error("MongoDB connection error:", err));
+
+// ------------ Middleware ------------
+app.use(
+  cors({
+    origin: ["http://localhost:5500", "http://127.0.0.1:5500"],
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "x-api-key"]
+  })
+);
+app.use(express.json());
+app.use(morgan("dev"));
+
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "change-me-session",
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      secure: false, 
+      httpOnly: true,
+      maxAge: 24 * 60 * 60 * 1000 
+    }
+  })
+);
+
+configurePassport();
+app.use(passport.initialize());
+app.use(passport.session());
