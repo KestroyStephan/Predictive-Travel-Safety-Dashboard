@@ -56,3 +56,17 @@ app.use(
 configurePassport();
 app.use(passport.initialize());
 app.use(passport.session());
+
+// ------------ Helper: Calculate Score ------------
+function calculateRiskScore(text) {
+    if (!text) return 0.00;
+    const t = text.toLowerCase();
+
+    // Canada Risk Levels (Keywords)
+    if (t.includes("avoid all travel")) return 5.00; // Level 4
+    if (t.includes("avoid non-essential travel")) return 4.00; // Level 3
+    if (t.includes("high degree of caution")) return 3.00; // Level 2
+    if (t.includes("normal security precautions")) return 1.00; // Level 1
+    
+    return 0.00;
+}
