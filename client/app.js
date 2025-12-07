@@ -25,3 +25,15 @@ const historyBodyEl = document.getElementById("history-body");
 const loginBtn = document.getElementById("login-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const userNameEl = document.getElementById("user-name");
+
+// --- COUNTRY MAPPING ---
+const COUNTRY_MAP = {
+    "sri lanka": "LK", "usa": "US", "united states": "US", "america": "US",
+    "united kingdom": "GB", "uk": "GB", "england": "GB", "australia": "AU",
+    "canada": "CA", "france": "FR", "germany": "DE", "japan": "JP",
+    "india": "IN", "china": "CN", "russia": "RU", "brazil": "BR",
+    "italy": "IT", "spain": "ES", "mexico": "MX", "indonesia": "ID",
+    "netherlands": "NL", "saudi arabia": "SA", "switzerland": "CH",
+    "turkey": "TR", "singapore": "SG", "uae": "AE", "united arab emirates": "AE",
+    "south korea": "KR", "new zealand": "NZ"
+};
