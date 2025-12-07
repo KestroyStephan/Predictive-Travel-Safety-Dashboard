@@ -47,3 +47,38 @@ export function configurePassport() {
     )
   );
 }
+
+// STEP 1: redirect to Google
+router.get(
+  "/google",
+  passport.authenticate("google", { scope: ["profile", "email"] })
+);
+
+// STEP 2: callback from Google
+router.get(
+  "/google/callback",
+  passport.authenticate("google", { failureRedirect: "/" }),
+  (req, res) => {
+    const user = req.user;
+
+    // Create JWT
+    const token = jwt.sign(
+      {
+        sub: user.id,
+        name: user.displayName,
+        email: user.email
+      },
+      process.env.JWT_SECRET || "change-me-in-production",
+      { expiresIn: "2h" }
+    );
+
+    const clientUrl = process.env.CLIENT_URL || "http://localhost:5500";
+
+    // Redirect back to frontend with token & name
+    res.redirect(
+      `${clientUrl}?access_token=${encodeURIComponent(
+        token
+      )}&name=${encodeURIComponent(user.displayName)}`
+    );
+  }
+);
