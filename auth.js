@@ -104,3 +104,17 @@ export function requireAuth(req, res, next) {
     return res.status(401).json({ error: "Invalid or expired token" });
   }
 }
+
+// Middleware: API key check
+export function requireApiKey(req, res, next) {
+  const headerKey = req.headers["x-api-key"];
+  const expectedKey = process.env.API_KEY || "dev-demo-api-key-123";
+
+  if (!headerKey || headerKey !== expectedKey) {
+    return res.status(403).json({ error: "Invalid API key" });
+  }
+  next();
+}
+
+export default router;
+
