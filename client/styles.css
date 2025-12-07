@@ -22,3 +22,32 @@ body {
 .ambient-glow { position: absolute; border-radius: 50%; filter: blur(100px); z-index: -1; opacity: 0.4; }
 .glow-1 { top: -10%; left: -10%; width: 50vw; height: 50vw; background: #7F00FF; }
 .glow-2 { bottom: -10%; right: -10%; width: 40vw; height: 40vw; background: #00C6FF; }
+
+/* LAYOUT */
+.layout-container { display: grid; grid-template-columns: 260px 1fr; height: 100vh; padding: 1.5rem; gap: 1.5rem; }
+
+/* SIDEBAR */
+.glass-panel {
+  background: var(--glass-surface); backdrop-filter: blur(var(--blur-amt));
+  border: 1px solid var(--glass-border); border-radius: var(--radius-xl);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+.sidebar { display: flex; flex-direction: column; padding: 2rem 1.5rem; }
+.logo-area { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 3rem; color: #fff; }
+.logo-icon { font-size: 1.8rem; background: var(--gradient-primary); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.logo-text { font-weight: 700; font-size: 1.4rem; }
+.side-nav { display: flex; flex-direction: column; gap: 0.5rem; flex: 1; }
+.nav-item {
+  text-decoration: none; color: var(--text-muted); padding: 0.8rem 1rem;
+  border-radius: var(--radius-md); display: flex; align-items: center; gap: 0.8rem;
+  transition: all 0.3s ease; border: 1px solid transparent;
+}
+.nav-item:hover, .nav-item.active { background: rgba(255, 255, 255, 0); color: #fff; border-color: var(--glass-border); }
+.nav-item.active { border-left: 3px solid #E100FF; background: linear-gradient(90deg, rgba(127,0,255,0.15), transparent); }
+.user-profile { border-top: 1px solid var(--glass-border); padding-top: 1.5rem; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.8rem; }
+.user-avatar { width: 40px; height: 40px; background: var(--gradient-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+.user-info { display: flex; flex-direction: column; }
+.user-name { font-weight: 600; font-size: 0.9rem; }
+.user-role { font-size: 0.75rem; color: var(--text-muted); }
+.hidden { display: none !important; }
+.full-width { width: 100%; }
