@@ -11,10 +11,12 @@
   <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
 </head>
 <body>
+  
   <div class="ambient-glow glow-1"></div>
   <div class="ambient-glow glow-2"></div>
 
   <div class="layout-container">
+    
     <aside class="sidebar glass-panel">
       <div class="logo-area">
         <div class="logo-icon"><i class='bx bxs-plane-alt'></i></div>
@@ -38,9 +40,21 @@
     </aside>
 
     <main class="main-content">
+      
       <header class="top-bar">
+        <div class="welcome-text">
+          <h1>Predictive Travel Safety Dashboard</h1>
+          <p>Real-time safety scores & advisory data.</p>
+        </div>
+        <div class="search-wrapper glass-input">
+            <i class='bx bx-search'></i>
+            <input id="country-input" type="text" placeholder="Search destination (e.g. Japan)...">
+            <button id="check-btn" class="btn-icon"><i class='bx bx-right-arrow-alt'></i></button>
+        </div>
+      </header>
 
-        <div class="dashboard-grid">
+      <div class="dashboard-grid">
+        
         <div class="card glass-panel origin-card">
           <div class="card-label"><i class='bx bx-current-location'></i> Origin</div>
           <div class="origin-details">
@@ -52,7 +66,7 @@
             <span class="badge-outline" id="origin-ip">IP: --</span>
           </div>
         </div>
-        
+
         <div class="card glass-panel destination-card">
           <div class="card-header">
             <div>
@@ -78,20 +92,9 @@
                 <div id="risk-level" class="chip">Unknown</div>
             </div>
           </div>
-        </div>
-
-        <div class="welcome-text">
-          <h1>Predictive Travel Safety Dashboard</h1>
-          <p>Real-time safety scores & advisory data.</p>
         </div>
-        <div class="search-wrapper glass-input">
-            <i class='bx bx-search'></i>
-            <input id="country-input" type="text" placeholder="Search destination (e.g. Japan)...">
-            <button id="check-btn" class="btn-icon"><i class='bx bx-right-arrow-alt'></i></button>
-        </div>
-      </header>
 
-      <div class="card glass-panel text-card">
+        <div class="card glass-panel text-card">
             <div class="card-title"><i class='bx bx-shield-quarter'></i> Security Advisory</div>
             <div class="scroll-area">
                 <p id="advisory-text" class="advisory-text">Search for a country to see the latest safety reports.</p>
@@ -100,7 +103,11 @@
                 <button id="save-btn" class="btn secondary" disabled><i class='bx bx-bookmark'></i> Save Report</button>
             </div>
         </div>
-      </div>
+        
+        </div>
+    </main>
+  </div>
+
   <script>
     window.APP_CONFIG = {
       API_BASE_URL: "http://localhost:4000",
@@ -109,9 +116,5 @@
     };
   </script>
   <script src="app.js"></script>
-  
-      </main>
-    </div>
-
-  </body>
+</body>
 </html>
