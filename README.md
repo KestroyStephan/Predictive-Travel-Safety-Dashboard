@@ -1,14 +1,3 @@
-Here is the clean, raw Markdown content for your `README.md` file.
-
-**Instructions:**
-
-1.  Go to your GitHub repository.
-2.  Click the **pencil (edit) icon** on your `README.md` file.
-3.  **Delete everything** currently in the file.
-4.  Copy the code block below and **paste it directly** into the editor.
-5.  Commit your changes.
-
------
 
 ````markdown
 # ✈️ AeroSafe - Predictive Travel & Safety Dashboard
@@ -68,7 +57,7 @@ Before running the project, ensure you have the following installed:
 ```bash
 git clone [https://github.com/KestroyStephan/Predictive-Travel-Safety-Dashboard.git](https://github.com/KestroyStephan/Predictive-Travel-Safety-Dashboard.git)
 cd Predictive-Travel-Safety-Dashboard
-````
+```
 
 ### 2\. Setup the Backend
 
