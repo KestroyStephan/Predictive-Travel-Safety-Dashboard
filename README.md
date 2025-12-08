@@ -7,9 +7,7 @@ This `README.md` file is professional, comprehensive, and tailored exactly to th
 
 **AeroSafe** is a modern, real-time travel intelligence dashboard designed to keep travelers safe. It provides instant safety scores, government travel advisories, and risk assessments for destinations worldwide, wrapped in a stunning "Dreamscape Aurora" glassmorphism interface.
 
-![Project Banner](https://via.placeholder.com/1000x400?text=AeroSafe+Dashboard+Preview)
-*(Replace this link with a screenshot of your actual dashboard)*
-
+![alt text](image.png)
 ---
 
 ## 🚀 Features
