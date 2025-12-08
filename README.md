@@ -48,7 +48,7 @@
 Before running the project, ensure you have the following installed:
 1. **Node.js** (v14 or higher)
 2. **MongoDB** (Running locally or using a MongoDB Atlas connection string)
-
+````
 ---
 
 ## 📥 Installation & Setup
