@@ -178,3 +178,24 @@ app.get("/api/travel-advisory", async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 });
+
+// ------------ Protected Routes ------------
+app.get("/api/me", requireAuth, (req, res) => {
+  res.json({ user: req.user });
+});
+
+app.post("/api/advisories", requireAuth, requireApiKey, async (req, res) => {
+  const payload = req.body;
+  try {
+    const record = new AdvisoryRecord({
+      userId: req.user.sub,
+      ipInfo: payload.ipInfo || null,
+      advisory: payload.advisory,
+      meta: payload.meta || {}
+    });
+    const saved = await record.save();
+    res.status(201).json(saved);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to save" });
+  }
+});
