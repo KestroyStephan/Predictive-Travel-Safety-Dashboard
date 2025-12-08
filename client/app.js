@@ -1,12 +1,17 @@
 // client/app.js
 
 const API_BASE_URL = window.APP_CONFIG.API_BASE_URL;
-// Change this to match your Backend Key
+// Ensure this key matches what is in your server.js
 const CLIENT_API_KEY = "dev-demo-api-key-123"; 
 
 let currentCombinedPayload = null;
 
-// Destination Card
+// --- 1. DOM ELEMENTS (Defined at the very top to avoid ReferenceErrors) ---
+const originCityEl = document.getElementById("origin-city");
+const originCountryEl = document.getElementById("origin-country");
+const originCodeEl = document.getElementById("origin-code");
+const originIpEl = document.getElementById("origin-ip");
+
 const destNameEl = document.getElementById("dest-name");
 const destCodeEl = document.getElementById("dest-code");
 const destUpdatedEl = document.getElementById("dest-updated");
@@ -15,7 +20,6 @@ const scoreValueEl = document.getElementById("score-value");
 const scoreRingWrapperEl = document.getElementById("score-ring-wrapper");
 const riskLevelEl = document.getElementById("risk-level");
 
-// General
 const advisoryTextEl = document.getElementById("advisory-text");
 const saveBtn = document.getElementById("save-btn");
 const checkBtn = document.getElementById("check-btn");
@@ -26,7 +30,7 @@ const loginBtn = document.getElementById("login-btn");
 const logoutBtn = document.getElementById("logout-btn");
 const userNameEl = document.getElementById("user-name");
 
-// --- COUNTRY MAPPING ---
+// --- 2. CONFIGURATION & MAPS ---
 const COUNTRY_MAP = {
     "sri lanka": "LK", "usa": "US", "united states": "US", "america": "US",
     "united kingdom": "GB", "uk": "GB", "england": "GB", "australia": "AU",
@@ -38,7 +42,7 @@ const COUNTRY_MAP = {
     "south korea": "KR", "new zealand": "NZ"
 };
 
-// --- HELPER FUNCTIONS ---
+// --- 3. HELPER FUNCTIONS ---
 function formatDateTime(isoString) {
   if (!isoString) return "-";
   const d = new Date(isoString);
@@ -65,7 +69,7 @@ function getFlagUrl(iso2) {
   return `https://flagcdn.com/w80/${iso2.toLowerCase()}.png`;
 }
 
-// --- RENDER FUNCTIONS ---
+// --- 4. RENDER FUNCTIONS ---
 function renderOrigin(ipData) {
     if(!originCityEl) return;
     if(!ipData) { originCityEl.textContent = "Unknown"; return; }
@@ -107,7 +111,9 @@ function renderDestination(advisoryData, meta) {
 }
 
 function renderHistory(records) {
+  // IMPORTANT: Check if historyBodyEl exists before trying to edit it
   if(!historyBodyEl) return;
+  
   historyBodyEl.innerHTML = "";
   if (!records || records.length === 0) {
     historyBodyEl.innerHTML = '<tr><td colspan="5" style="text-align:center; opacity:0.6;">No records yet.</td></tr>';
@@ -131,7 +137,7 @@ function renderHistory(records) {
   });
 }
 
-// --- API & LOGIC ---
+// --- 5. API CALLS ---
 async function fetchIpLocation() {
   try {
     const res = await fetch(`${API_BASE_URL}/api/ip-location`);
@@ -147,8 +153,9 @@ async function fetchTravelAdvisory(countryCode) {
   return res.json(); 
 }
 
+// --- 6. MAIN LOGIC (With Safety Checks) ---
 async function initDashboard() {
-    // Only run if we are on the Home Page (Origin card exists)
+    // CRITICAL FIX: If 'originCityEl' is null (e.g., we are on History page), STOP here.
     if(!originCityEl) return; 
 
     try {
@@ -211,28 +218,23 @@ async function saveCurrentAdvisory() {
     if(res.ok) {
         saveBtn.innerHTML = "<i class='bx bx-check'></i> Saved";
         setTimeout(() => { saveBtn.innerHTML = "<i class='bx bx-bookmark'></i> Save Report"; saveBtn.disabled = false; }, 2000);
-        // Refresh history if we are viewing it
         loadHistory(); 
     } else { throw new Error("Save failed"); }
   } catch (err) { saveBtn.innerHTML = "Error"; saveBtn.disabled = false; }
 }
 
 async function loadHistory() {
-  // Only try to load history if the table exists on this page
-  if (!historyBodyEl) return;
+  if (!historyBodyEl) return; // Only load history if table exists
   
   if (!window.APP_CONFIG.OAUTH_ACCESS_TOKEN) { renderHistory([]); return; }
-  
   try {
     const res = await fetch(`${API_BASE_URL}/api/records`, { headers: { Authorization: `Bearer ${window.APP_CONFIG.OAUTH_ACCESS_TOKEN}`, "x-api-key": CLIENT_API_KEY } });
     if (res.ok) { renderHistory(await res.json()); }
   } catch (e) { console.error(e); }
 }
 
-// --- AUTHENTICATION & PERSISTENCE (FIXED) ---
-
+// --- 7. AUTHENTICATION & STARTUP ---
 function updateAuthUI() {
-    // Updates the buttons based on login state
     if (window.APP_CONFIG.OAUTH_ACCESS_TOKEN) {
         if(loginBtn) loginBtn.classList.add("hidden");
         if(logoutBtn) logoutBtn.classList.remove("hidden");
@@ -249,42 +251,28 @@ function readAuthFromUrl() {
   const urlToken = params.get("access_token");
   const urlName = params.get("name");
 
-  // 1. SCENARIO: Coming back from Google Login
   if (urlToken) {
-    // Save to Local Storage (Permanent memory)
     localStorage.setItem("aero_token", urlToken);
     localStorage.setItem("aero_user", urlName || "User");
-    
-    // Set global config
     window.APP_CONFIG.OAUTH_ACCESS_TOKEN = urlToken;
     window.APP_CONFIG.USER_NAME = urlName || "User";
-
-    // Clean URL
     window.history.replaceState({}, "", window.location.pathname);
-  } 
-  // 2. SCENARIO: Page Refresh or Navigation
-  else {
+  } else {
     const storedToken = localStorage.getItem("aero_token");
     const storedName = localStorage.getItem("aero_user");
-
     if (storedToken) {
       window.APP_CONFIG.OAUTH_ACCESS_TOKEN = storedToken;
       window.APP_CONFIG.USER_NAME = storedName;
     }
   }
-  
-  // Update UI immediately
   updateAuthUI();
 }
 
-// --- INITIALIZATION ---
-
 document.addEventListener("DOMContentLoaded", () => {
-  readAuthFromUrl(); // Restore login
+  readAuthFromUrl();
+  initDashboard(); // Handles the "Origin not defined" check internally
   
-  initDashboard(); // Load data (if on home page)
-  
-  if (window.APP_CONFIG.OAUTH_ACCESS_TOKEN) loadHistory(); // Load history (if on history page)
+  if (window.APP_CONFIG.OAUTH_ACCESS_TOKEN) loadHistory();
 
   if(checkBtn) checkBtn.addEventListener("click", () => updateForCountry(countryInput.value.trim()));
   if(countryInput) countryInput.addEventListener("keyup", (e) => { if (e.key === "Enter") updateForCountry(countryInput.value.trim()); });
@@ -292,9 +280,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if(refreshHistoryBtn) refreshHistoryBtn.addEventListener("click", loadHistory);
   
   if(loginBtn) loginBtn.addEventListener("click", () => window.location.href = `${API_BASE_URL}/auth/google`);
-  
   if(logoutBtn) logoutBtn.addEventListener("click", () => { 
-      // Clear memory on logout
       localStorage.removeItem("aero_token");
       localStorage.removeItem("aero_user");
       window.APP_CONFIG.OAUTH_ACCESS_TOKEN = null; 
