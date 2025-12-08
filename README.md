@@ -1,13 +1,26 @@
-This `README.md` file is professional, comprehensive, and tailored exactly to the "AeroSafe" code we built. It includes setup instructions, features, and the tech stack.
+Here is the clean, raw Markdown content for your `README.md` file.
 
-### `README.md`
+**Instructions:**
+
+1.  Go to your GitHub repository.
+2.  Click the **pencil (edit) icon** on your `README.md` file.
+3.  **Delete everything** currently in the file.
+4.  Copy the code block below and **paste it directly** into the editor.
+5.  Commit your changes.
+
+-----
 
 ````markdown
 # ✈️ AeroSafe - Predictive Travel & Safety Dashboard
 
+![Build Status](https://img.shields.io/badge/Status-Active-brightgreen)
+![Node Version](https://img.shields.io/badge/Node.js-v14%2B-blue)
+![License](https://img.shields.io/badge/License-MIT-orange)
+
 **AeroSafe** is a modern, real-time travel intelligence dashboard designed to keep travelers safe. It provides instant safety scores, government travel advisories, and risk assessments for destinations worldwide, wrapped in a stunning "Dreamscape Aurora" glassmorphism interface.
 
 ![alt text](image.png)
+
 ---
 
 ## 🚀 Features
@@ -23,18 +36,18 @@ This `README.md` file is professional, comprehensive, and tailored exactly to th
 
 ## 🛠️ Tech Stack
 
-**Frontend:**
+### **Frontend**
 * HTML5, CSS3 (Custom Glassmorphism Variables)
 * Vanilla JavaScript (ES6+)
 * Boxicons (Icons)
 * Google Fonts (Outfit)
 
-**Backend:**
+### **Backend**
 * Node.js & Express.js
 * MongoDB & Mongoose (Data Persistence)
 * Passport.js (Authentication)
 
-**APIs Used:**
+### **APIs Used**
 * **IP-API:** For origin geolocation.
 * **Gov of Canada Travel API:** For real-time advisory text.
 * **FlagCDN:** For dynamic country flags.
@@ -44,8 +57,8 @@ This `README.md` file is professional, comprehensive, and tailored exactly to th
 ## ⚙️ Prerequisites
 
 Before running the project, ensure you have the following installed:
-1.  **Node.js** (v14 or higher)
-2.  **MongoDB** (Running locally or using a MongoDB Atlas connection string)
+1. **Node.js** (v14 or higher)
+2. **MongoDB** (Running locally or using a MongoDB Atlas connection string)
 
 ---
 
@@ -53,7 +66,7 @@ Before running the project, ensure you have the following installed:
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/KestroyStephan/Predictive-Travel-Safety-Dashboard.git
+git clone [https://github.com/KestroyStephan/Predictive-Travel-Safety-Dashboard.git](https://github.com/KestroyStephan/Predictive-Travel-Safety-Dashboard.git)
 cd Predictive-Travel-Safety-Dashboard
 ````
 
@@ -67,7 +80,7 @@ Navigate to the root directory (where `server.js` is located).
     npm install
     ```
 
-2.  **Create a `.env` file:**
+2.  **Create a .env file:**
     Create a file named `.env` in the root folder and add the following keys:
 
     ```env
@@ -86,21 +99,24 @@ Navigate to the root directory (where `server.js` is located).
     node server.js
     ```
 
-    *You should see: `🚀 Server running at http://localhost:4000`*
+    *You should see: 🚀 Server running at http://localhost:4000*
 
 ### 3\. Setup the Frontend
 
 Navigate to the client folder.
 
 1.  **Go to Client Directory:**
+
     ```bash
     cd client
     ```
+
 2.  **Start Local Server:**
-    You can use Python or Node.js `http-server` to serve the static files.
+
     ```bash
     npx http-server -p 5500
     ```
+
 3.  **Open in Browser:**
     Go to `http://localhost:5500`
 
@@ -108,8 +124,8 @@ Navigate to the client folder.
 
 ## 📂 Project Structure
 
-```
-aerosafe-dashboard/
+```text
+Predictive-Travel-Safety-Dashboard/
 │
 ├── client/                 # Frontend Logic
 │   ├── index.html          # Main Dashboard
@@ -130,9 +146,13 @@ aerosafe-dashboard/
 
 ## 🔮 Future Improvements
 
-  * [ ] Add interactive map visualization (Leaflet/Mapbox).
-  * [ ] Implement email alerts for advisory changes.
-  * [ ] Add weather data integration.
-  * [ ] Add multi-language support.
+  - [ ] Add interactive map visualization (Leaflet/Mapbox).
+  - [ ] Implement email alerts for advisory changes.
+  - [ ] Add weather data integration.
+  - [ ] Add multi-language support.
 
------
+
+```
+
+Would you like me to help you set up a `.gitignore` file to make sure your private `.env` keys aren't uploaded to GitHub?
+```
