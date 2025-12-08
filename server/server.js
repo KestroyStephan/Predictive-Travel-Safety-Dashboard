@@ -199,3 +199,20 @@ app.post("/api/advisories", requireAuth, requireApiKey, async (req, res) => {
     res.status(500).json({ error: "Failed to save" });
   }
 });
+
+app.get("/api/records", requireAuth, requireApiKey, async (req, res) => {
+  const { countryCode } = req.query;
+  const filter = { userId: req.user.sub };
+
+  if (countryCode) filter["advisory.countryCode"] = countryCode.toUpperCase();
+  try {
+    const records = await AdvisoryRecord.find(filter).sort({ createdAt: -1 });
+    res.json(records);
+  } catch (err) {
+    res.status(500).json({ error: "Failed to fetch records" });
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
