@@ -1,4 +1,3 @@
-markdown
 # ✈️ AeroSafe - Predictive Travel & Safety Dashboard
 
 ![Build Status](https://img.shields.io/badge/Status-Active-brightgreen)
