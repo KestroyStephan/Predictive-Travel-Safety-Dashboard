@@ -4,7 +4,7 @@
 ![Node Version](https://img.shields.io/badge/Node.js-v14%2B-blue)
 ![License](https://img.shields.io/badge/License-MIT-orange)
 
-**AeroSafe** is a modern, real-time travel intelligence dashboard designed to keep travelers safe. It provides instant safety scores, government travel advisories, and risk assessments for destinations worldwide, wrapped in a stunning "Dreamscape Aurora" glassmorphism interface.
+**AeroSafe** is a modern, real-time travel intelligence dashboard designed to keep travelers safe. It provides instant safety scores, government travel advisories, and rissk assessments for destinations worldwide, wrapped in a stunning "Dreamscape Aurora" glassmorphism interface.
 
 ![alt text](image.png)
 
